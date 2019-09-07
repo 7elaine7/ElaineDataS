@@ -1,5 +1,5 @@
 /*****************************************************************************
-File name: ElaineDataS/DS/Array/C/array.c
+File name: ElaineDataS/DS/C/Array/array.c
 Description: array common function
 Author: Elaine Sun
 Version: 
