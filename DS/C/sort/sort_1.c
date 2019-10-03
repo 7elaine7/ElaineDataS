@@ -1,18 +1,13 @@
 /*****************************************************************************
-File name: ElaineDataS/DS/C/Recursion/climbing.c
+File name: ElaineDataS/DS/C/sort/sort_1.c
 Description: Bubble Sort, Insertion Sort, Selection Sort, 
 Author: Elaine Sun
 Date: 19-09-22
 *****************************************************************************/
-
+#include "sort.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-
-typedef struct Array{
-    int size;
-    int *array;
-}ARRAY_S;
 
 void Bubble_Sort(ARRAY_S *array_s)
 {
