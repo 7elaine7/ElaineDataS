@@ -110,7 +110,7 @@ void sort_heap(HEAP_S *heap)
     int num = heap->dnum;
     while(heap->dnum)
     {
-        heapify(heap, 1);
+        build_heap(heap);
         swap(heap, 1, heap->dnum);
         heap->dnum--;
     }
