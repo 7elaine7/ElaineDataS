@@ -127,7 +127,7 @@ void dump(DHEAP *heap)
     }
 }
 
-int main(int argv, char *argc[])
+int main(int argc, char *argv[])
 {
     int array[10] = {7, 77, 1, 17, 12, 38, 27, 66, 5, 26};
     int size = sizeof(array) / sizeof(array[0]);
