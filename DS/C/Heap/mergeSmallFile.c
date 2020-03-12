@@ -179,7 +179,7 @@ GDATA* get_data(char group)
     return gdata;
 }
 
-int main(int argv, char *argc[])
+int main(int argc, char *argv[])
 {
     GHEAP heap;
     init_heap(&heap);
