@@ -126,7 +126,7 @@ void dump(HEAP_S *heap)
     }
 }
 
-int main(int argv, char *argc[])
+int main(int argc, char *argv[])
 {
     HEAP_S heap;
     init_heap(&heap);
