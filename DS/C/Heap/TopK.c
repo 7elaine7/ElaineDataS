@@ -92,7 +92,7 @@ void dump(HEAP_S *heap)
     }
 }
 
-int main(int argv, char *argc[])
+int main(int argc, char *argv[])
 {
     HEAP_S heap;   
     int array[17] = {7, 17, 9, 1, 2, 7, 77, 8, 16, 52, 27, 6, 277, 66, 1, 88, 16};
