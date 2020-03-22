@@ -27,7 +27,7 @@ void swap(int *array, int a, int b)
 
 int q_get(int *array, int start, int end)
 {
-    int i,j,tmp;
+    int i,j;
     i = j = start;
     while(j < end)
     {
