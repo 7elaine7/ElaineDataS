@@ -105,7 +105,7 @@ void minStackFree(MinStack* obj) {
 /*
 function2，数组实现, 较快
 */
-#define MAX_SIZE 200001
+#define MAX_SIZE 20001
 typedef struct mymin{
     int min;   //top为当前节点时栈的最小值
     int data;
