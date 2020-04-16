@@ -75,3 +75,50 @@ int** subsets(int* nums, int numsSize, int* returnSize, int** returnColumnSizes)
     }
     return array;
 }
+
+//function2, 用 memcpy
+//计算n个数的子集数（2的n次方个）
+int get_subset(int n)
+{
+    if(n == 0)
+        return 0;
+    int sum = 1;
+    for(int i = 1; i <= n; ++i)
+    {
+        sum = sum * 2;
+    }
+    return sum;
+}
+int** subsets(int* nums, int numsSize, int* returnSize, int** returnColumnSizes){
+    int size = get_subset(numsSize);
+    *returnSize = size;
+    *returnColumnSizes = (int*)malloc(sizeof(int) * size);
+    //分配存储数组
+    int** array = (int**)malloc(sizeof(int*) * size);
+    for(int i = 0; i < size; ++i)
+    {
+        array[i] = (int*)malloc(sizeof(int) * numsSize);
+    }
+    if(nums == NULL || numsSize == 0)
+    {
+        return array;
+    }
+
+    array[0][0] = 0;
+    (*returnColumnSizes)[0] = 0;
+    array[1][0] = nums[0];
+    (*returnColumnSizes)[1] = 1;
+    int count = 2;
+    for(int i = 1; i < numsSize; ++i)
+    {
+        int tmp = count;
+        for(int m = 0; m < tmp; m++)
+        {
+            int size = (*returnColumnSizes)[m];
+            memcpy(array[count], array[m], sizeof(int)*size);
+            array[count][size] = nums[i];
+            (*returnColumnSizes)[count++] = size + 1;
+        }
+    }
+    return array;
+}
