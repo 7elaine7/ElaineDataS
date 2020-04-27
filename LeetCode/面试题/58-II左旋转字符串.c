@@ -9,6 +9,8 @@
 输入: s = "lrloseumgh", k = 6
 输出: "umghlrlose"
 */
+
+//function 1，新建一块内存，拷贝，搬移
 char* reverseLeftWords(char* s, int n){
     int size = strlen(s);
     char* tmp = (char*)malloc(sizeof(char) * (size + 1));
@@ -18,4 +20,33 @@ char* reverseLeftWords(char* s, int n){
     }
     tmp[size] = '\0';
     return tmp;
+}
+
+//function 2, 原地三次翻转
+void swap(char* s, int a, int b)
+{
+    char tmp = s[a];
+    s[a] = s[b];
+    s[b] = tmp;
+}
+void reverse(char*s, int start, int end)
+{
+    while(start < end)
+    {
+        swap(s, start, end);
+        start++;
+        end--;
+    }
+}
+char* reverseLeftWords(char* s, int n){
+    int size = strlen(s);
+    if(NULL == s || 0 == size)
+        return s;
+    //前n个翻转一下
+    reverse(s, 0, n - 1);
+    //后面的翻转一下
+    reverse(s, n, size - 1);
+    //整体翻转一下
+    reverse(s, 0, size - 1);
+    return s;
 }
