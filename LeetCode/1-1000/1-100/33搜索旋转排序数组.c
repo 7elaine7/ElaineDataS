@@ -12,7 +12,7 @@
 输入: nums = [4,5,6,7,0,1,2], target = 3
 输出: -1
 */
-
+//function 1
 int search(int* nums, int numsSize, int target){
     if(NULL == nums || 0 == numsSize)
         return -1;
@@ -43,4 +43,38 @@ int search(int* nums, int numsSize, int target){
         }
     }
     return -1;    
+}
+
+//function 2
+int search(int* nums, int numsSize, int target){
+    if(0 == numsSize || NULL == nums)
+        return -1;
+    int left = 0;
+    int right = numsSize - 1;
+    //left和right没有旋转之前是连在一起的，中间没有值
+    while(left <= right)
+    {
+        if(target < nums[left] && target > nums[right])
+            return -1;
+        int mid = left + ((right - left) >> 1);
+        if(target == nums[mid])
+            return mid;
+        //target落在左边大的部分
+        if(target >= nums[left])
+        {
+            if(target < nums[mid] || nums[mid] < nums[left])
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        //target落在右边小的部分
+        else if(target <= nums[right])
+        {
+            if(nums[mid] > nums[right] || nums[mid] < target)
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+    }
+    return -1;
 }
