@@ -13,6 +13,7 @@
 输入的字符串只包含小写字母
 两个字符串的长度都在 [1, 10,000] 之间
 */
+//哈希，比较比较慢
 #define SIZE 26
 bool checkInclusion(char * s1, char * s2){
     int size1 = strlen(s1);
@@ -44,6 +45,39 @@ bool checkInclusion(char * s1, char * s2){
             tmp++;
         }
         memcpy(hash_count, hash_array, sizeof(int)*SIZE);
+    }
+    return false;
+}
+
+//function 2 滑窗，比较快
+#define SIZE 26
+bool checkInclusion(char * s1, char * s2){
+    int size1 = strlen(s1);
+    int size2 = strlen(s2);
+    if(0 == size1)
+        return true;
+    if(size1 > size2)
+        return false;    
+    int hash_array1[SIZE];
+    int hash_array2[SIZE];
+    memset(hash_array1, 0, sizeof(int) * SIZE);
+    memset(hash_array2, 0, sizeof(int) * SIZE);
+
+    for(int i = 0; i < size1; ++i)
+    {
+        hash_array1[s1[i] - 'a']++;
+        hash_array2[s2[i] - 'a']++;
+    }
+    if(memcmp(hash_array1, hash_array2, sizeof(int) * SIZE) == 0)
+        return true;
+    
+    for(int i = size1; i < size2; ++i)
+    {
+        //向右边滑动，统计size1数量的范围内，s2哈希表的情况
+        hash_array2[s2[i] - 'a']++;
+        hash_array2[s2[i - size1] - 'a']--;
+        if(memcmp(hash_array1, hash_array2, sizeof(int) * SIZE) == 0)
+            return true;
     }
     return false;
 }
