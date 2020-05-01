@@ -20,6 +20,7 @@
 请选用 C 语言的用户尝试使用 O(1) 额外空间复杂度的原地解法。
 */
 
+//function 1，整体翻转，再逐个翻转
 void reverse(char *s, int start, int end)
 {
     if(start == end)
@@ -85,4 +86,48 @@ char * reverseWords(char * s){
     }
     s[m-1] = '\0';
     return s;
+}
+
+//function 2, stack, 用栈
+/*
+从后向前遍历，入栈，遇到空格出栈
+*/
+char * reverseWords(char * s){
+    int size = strlen(s);
+    char* stack = (char*)malloc(sizeof(char) * (size + 1));
+    char* result = (char*)malloc(sizeof(char) * (size + 1));
+    int stail = 0;
+    int rtail = 0;
+    for(int i = size - 1; i >= 0; --i)
+    {
+        if(s[i] != ' ')
+        {
+            stack[stail++] = s[i];
+        }
+        else
+        {
+            if(stail != 0)
+            {
+                if(rtail != 0)
+                    result[rtail++] = ' ';
+                while(stail > 0)
+                {
+                    result[rtail++] = stack[--stail];
+                }
+            }
+        }
+    }
+
+    //处理栈中留存的部分
+    if(stail != 0)
+    {
+        if(rtail != 0)
+            result[rtail++] = ' ';
+        while(stail > 0)
+        {
+            result[rtail++] = stack[--stail];
+        }
+    }
+    result[rtail] = '\0';
+    return result;  
 }
