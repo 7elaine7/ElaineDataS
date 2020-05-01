@@ -13,6 +13,7 @@
  * };
  */
 
+//function 1，用了个头节点
 struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2){
     struct ListNode* head = (struct ListNode*)malloc(sizeof(struct ListNode));
     head->next = NULL;
@@ -43,5 +44,30 @@ struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2){
     free(p);
 
     head = head->next;
+    return head;
+}
+//function 2 ，二级指针，快一点
+typedef struct ListNode Node;
+struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2){
+    Node* head = NULL;
+    Node** p = &head;
+    while(l1 && l2)
+    {
+        if(l1->val < l2->val)
+        {
+            *p = l1;
+            l1 = l1->next;
+        }
+        else
+        {
+            *p = l2;
+            l2 = l2->next;
+        }
+        p = &((*p)->next);  //(), -> priority: 1; *, & priority: 2
+    }
+    if(l1)
+        *p = l1;
+    else
+        *p = l2;
     return head;
 }
