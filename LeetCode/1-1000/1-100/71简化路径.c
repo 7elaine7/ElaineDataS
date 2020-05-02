@@ -26,6 +26,7 @@
 输出："/a/b/c"
 */
 
+//function 1， 分类比较混乱，比较慢 
 char * simplifyPath(char * path){
     int size = strlen(path);
     char *result = (char*)malloc(sizeof(char) * (size + 2));
@@ -101,5 +102,49 @@ char * simplifyPath(char * path){
     if(tail > 1 && result[tail - 1] == '/')
         tail--;
     result[tail] = '\0';
+    return result;
+}
+
+//function 2, 分类更清晰，比较快
+char * simplifyPath(char * path){
+    int size = strlen(path);
+    char *result = (char*)malloc(sizeof(char) * (size + 2));
+    memset(result, 0, sizeof(char) * (size + 2));
+    if(size == 0)
+        return result;
+    result[0] = '/';
+    int tail = 0;
+    for(int i = 0; i < size;)
+    {
+        if(path[i] == '/' || path[i] == '.' && (path[i + 1] == '/' || path[i + 1] == '\0')) 
+        {
+            i++;
+            continue;
+        }
+        else if(path[i] == '.' && path[i + 1] == '.' && (path[i + 2] == '/' || path[i + 2] == '\0'))
+        {
+            while(tail > 0 && result[--tail] != '/');
+            i = i + 2;
+        }
+        else
+        {
+            while(i < size && path[i] != '/')
+            {
+                result[++tail] = path[i++];
+            }
+            if((path[i] == '/') && (path[i + 1] != '\0'))
+            {
+                result[++tail] = path[i++];
+            }
+        }
+    }
+    if(tail > 0 && result[tail] == '/')
+    {
+        result[tail] = '\0';
+    }
+    else
+    {
+        result[++tail] = '\0';
+    }   
     return result;
 }
