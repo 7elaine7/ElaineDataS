@@ -22,6 +22,8 @@
 解释: 输入为: [5,1,4,null,null,3,6]。
      根节点的值为 5 ，但是其右子节点值为 4 。
 */
+
+//function 1，递归
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -51,4 +53,38 @@ bool isValidBST(struct TreeNode* root){
     if(NULL == root)
         return true;
     return search(root, LONG_MIN, LONG_MAX);
+}
+
+//function 2， 中序遍历， 栈模拟
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+typedef struct TreeNode Node;
+#define SIZE 1000
+bool isValidBST(struct TreeNode* root){
+    if(NULL == root)
+        return true;
+    Node* stack[SIZE];
+    int tail = 0;
+    long pre = LONG_MIN;
+    
+    while(tail > 0 || root)
+    {
+        while(root)
+        {
+            stack[tail++] = root;
+            root = root->left;
+        }
+        root = stack[--tail];
+        if(root->val <= pre)
+            return false;
+        pre = root->val;
+        root = root->right;
+    }
+    return true;
 }
