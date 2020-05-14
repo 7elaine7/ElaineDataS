@@ -86,7 +86,6 @@ int findCircleNum(int** M, int MSize, int* MColSize){
         {
             if(M[i][j] == 1)
             {
-                int flag = 0;
                 bfs(M, MSize, *MColSize, i, j);
                 count++;
             }
@@ -199,6 +198,61 @@ int findCircleNum(int** M, int MSize, int* MColSize){
             head = 0;
             tail = 0;
             count++;
+        }
+    }
+    return count;
+}
+
+//function 5, 使用并查集
+int find(int x, int* parent)
+{
+    //查找x所在树的根结点
+    while(parent[x] != x)
+    {
+        //压缩树的层树
+        parent[x] = parent[parent[x]];
+        x = parent[x];
+    }
+    return x;
+}
+void make_connect(int p, int q, int* parent, int* size, int* count)
+{
+    int rootp = find(p, parent);
+    int rootq = find(q, parent);
+    if(rootp == rootq)
+        return;
+    //调整平衡，比较小的树挂到比较大的树下面
+    if(size[rootp] < size[rootq])
+    {
+        parent[rootp] = rootq;
+        size[rootq] += size[rootp];
+    }
+    else
+    {
+        parent[rootq] = rootp;
+        size[rootp] += size[rootq];
+    }
+    (*count)--;
+}
+int findCircleNum(int** M, int MSize, int* MColSize){
+    //初始化每个点的parent都是自己
+    int* parent = (int*)malloc(sizeof(int) * MSize);
+    //存储每个树的重量
+    int* size = (int*)malloc(sizeof(int) * MSize);
+    int count = MSize;
+    for(int i = 0; i < MSize; ++i)
+    {
+        parent[i] = i;
+        size[i] = 1;
+    }
+    for(int i = 0; i < MSize; ++i)
+    {
+        for(int j = 0; j < *MColSize; ++j)
+        {
+            if(M[i][j] == 1)
+            {
+                make_connect(i, j, parent, size, &count);
+            }
         }
     }
     return count;
