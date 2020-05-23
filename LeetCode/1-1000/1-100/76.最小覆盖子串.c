@@ -38,10 +38,6 @@ char * minWindow(char * s, char * t){
 
     //统计s中出现t中字符的位置
     int* node = (int*)malloc(sizeof(int) * (s1 + 1));
-    for(int i = 0; i <= s1; ++i)
-    {
-        node[i] = -1;
-    }
 
     //统计每个位置各个字符出现次数和
     int *hash_count = (int*)malloc(sizeof(int) * SIZE);
@@ -73,7 +69,7 @@ char * minWindow(char * s, char * t){
             {
                 left = i + 1;
                 hash_count[s[node[i]]]--;
-                if(check(hash_array, hash_count) == false)
+                if(hash_array[s[node[i]]] > hash_count[s[node[i]]])
                     break;
                 if(node[right] - node[left] + 1 < min.right - min.left + 1)
                 {
