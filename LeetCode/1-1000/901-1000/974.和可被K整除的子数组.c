@@ -15,6 +15,8 @@
 
 //和560相类似
 //前缀+哈希
+
+//function 1, 哈希普遍建法
 //创建哈希表
 typedef struct hash_node
 {
@@ -87,6 +89,26 @@ int subarraysDivByK(int* A, int ASize, int K){
         int mod = (sum % K + K) % K;
         count += hash_get(map, mod);
         hash_insert(map, mod);
+    }
+    return count;
+}
+
+//function 2，取模只有K种情况，所以只要建一个K数组作为哈希即可
+//注意，负数取模一定要变为正
+int subarraysDivByK(int* A, int ASize, int K){
+    int* hash_map = (int*)malloc(sizeof(int) * K);
+    memset(hash_map, 0, sizeof(int) * K);
+    int count = 0;
+    int sum = 0;
+    //最前面需要有0，作为边界值
+    hash_map[0] = 1;
+    for(int i = 0; i < ASize; ++i)
+    {
+        sum += A[i];
+        //负数mod需要+K
+        int mod = (sum % K + K) % K;
+        count += hash_map[mod];
+        hash_map[mod]++;
     }
     return count;
 }
