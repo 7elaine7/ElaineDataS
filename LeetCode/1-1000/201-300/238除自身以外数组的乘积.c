@@ -33,3 +33,25 @@ int* productExceptSelf(int* nums, int numsSize, int* returnSize){
     *returnSize = numsSize;
     return array;
 }
+
+//优化，添加 [] 的情况
+int* productExceptSelf(int* nums, int numsSize, int* returnSize){
+    int* res = (int*)malloc(sizeof(int) * numsSize);
+    *returnSize = numsSize;
+    if(0 == numsSize || NULL == nums)
+        return res;
+    //当前值的左边乘积
+    res[0] = 1;
+    for(int i = 1; i < numsSize; ++i)
+    {
+        res[i] = res[i - 1] * nums[i - 1];
+    }
+    //乘当前值右边乘积
+    int right = 1;
+    for(int i = numsSize - 2; i >= 0; --i)
+    {
+        right *= nums[i + 1];
+        res[i] = res[i] * right;
+    }
+    return res;
+}
