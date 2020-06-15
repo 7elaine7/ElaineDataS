@@ -12,6 +12,7 @@
 说明:
 所有输入只包含小写字母 a-z 。
 */
+//纵向遍历
 char * longestCommonPrefix(char ** strs, int strsSize){
     if(0 == strsSize || NULL == *strs)
         return "";
@@ -39,4 +40,43 @@ char * longestCommonPrefix(char ** strs, int strsSize){
     }
     array[count] = '\0';
     return array;
+}
+//functinon 2， 二分法， 注意边界的取值
+bool isCommonPrefix(char** strs, int size, int len)
+{
+    for(int i = 1; i < size; ++i)
+    {
+        if(memcmp(strs[0], strs[i], sizeof(char) * len))
+            return false;
+    }
+    return true;
+}
+char * longestCommonPrefix(char ** strs, int strsSize){
+    if(!strs || !strsSize)
+        return "";
+    //获取最小值
+    int min = strlen(strs[0]);
+    for(int i = 1; i < strsSize; ++i)
+    {
+        min = strlen(strs[i]) < min ? strlen(strs[i]) : min;
+    }
+    int left = 0;
+    int right = min;
+    int mid;
+    while(left < right)
+    {
+        mid = left + (right - left + 1) / 2;    //注意边界的取值！
+        if(isCommonPrefix(strs, strsSize, mid))
+        {
+            left = mid;     //注意边界的取值！
+        }
+        else
+        {
+            right = mid - 1;    //注意边界的取值！
+        }
+    }
+    char* res = (char*)malloc(sizeof(char) * (left + 1));
+    memcpy(res, strs[0], sizeof(char) * left);
+    res[left] = '\0';
+    return res;
 }
