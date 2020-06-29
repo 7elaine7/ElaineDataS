@@ -212,5 +212,52 @@ int findKthLargest(int* nums, int numsSize, int k){
     return heap[1]; 
 }
 
+//funtion 7，堆排序，每次排完删掉最顶端，删掉size - k个，非常慢
+//堆排序
+void swap(int* nums, int x, int y)
+{
+    int tmp = nums[x];
+    nums[x] = nums[y];
+    nums[y] = tmp;
+}
+//堆化，小顶堆
+void heapify(int* nums, int size, int parent)
+{
+    int left;
+    int right;
+    int min;
+    while(true)
+    {
+        left = parent * 2 + 1;
+        right = parent * 2 + 2;
+        min = parent;
+        if(left < size && nums[left] < nums[min])
+            min = left;
+        if(right < size && nums[right] < nums[min])
+            min = right;
+        if(min == parent)
+            return;
+        swap(nums, parent, min);
+        parent = min;
+    }
+}
+//建小顶堆, 从0开始
+void build_heap(int* nums, int size)
+{
+    for(int i = size / 2 - 1; i >= 0; --i)
+    {
+        heapify(nums, size, i);
+    }
+}
 
+int findKthLargest(int* nums, int numsSize, int k){
+    build_heap(nums, numsSize);
+    for(int i = numsSize; i > k; --i)
+    {
+        swap(nums, 0, i - 1);
+        --numsSize;
+        build_heap(nums, numsSize);
+    }
+    return nums[0];
+}
 
