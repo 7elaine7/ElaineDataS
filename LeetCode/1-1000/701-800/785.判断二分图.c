@@ -67,3 +67,71 @@ bool isBipartite(int** graph, int graphSize, int* graphColSize){
     }
     return true;
 }
+
+//function 2, DFS
+bool DFS(int** graph, int* visited, int node, int* graphColSize)
+{
+    if(visited[node] == 0)
+        visited[node] = 1;
+    for(int i = 0; i < graphColSize[node]; ++i)
+    {
+        int color = (visited[node] == 1 ? 2 : 1);
+        int tmp = graph[node][i];
+        if(visited[tmp] == 0)
+        {
+            visited[tmp] = color;
+            if(!DFS(graph, visited, tmp, graphColSize))
+                return false;
+        }
+        else if(visited[tmp] != color)
+            return false;
+    }
+    return true;
+}
+bool isBipartite(int** graph, int graphSize, int* graphColSize){
+    //0代表初始值，1代表A，2代表B
+    int* visited = (int*)malloc(sizeof(int) * graphSize);
+    memset(visited, 0, sizeof(int) * graphSize);
+
+    for(int i = 0; i < graphSize; ++i)
+    {
+        if(!DFS(graph, visited, i, graphColSize))
+            return false;       
+    }
+    return true;
+}
+
+//function 3, 优化DFS
+bool DFS(int** graph, int* visited, int node, int* graphColSize)
+{
+    int color = (visited[node] == 1 ? 2 : 1);
+    for(int i = 0; i < graphColSize[node]; ++i)
+    {        
+        int tmp = graph[node][i];
+        if(visited[tmp] == 0)
+        {
+            visited[tmp] = color;
+            if(!DFS(graph, visited, tmp, graphColSize))
+                return false;
+        }
+        else if(visited[tmp] != color)
+            return false;
+    }
+    return true;
+}
+bool isBipartite(int** graph, int graphSize, int* graphColSize){
+    //0代表初始值，1代表A，2代表B
+    int* visited = (int*)malloc(sizeof(int) * graphSize);
+    memset(visited, 0, sizeof(int) * graphSize);
+
+    for(int i = 0; i < graphSize; ++i)
+    {
+        if(visited[i] == 0)
+        {
+            visited[i] = 1;
+            if(!DFS(graph, visited, i, graphColSize))
+                return false;   
+        }    
+    }
+    return true;
+}
