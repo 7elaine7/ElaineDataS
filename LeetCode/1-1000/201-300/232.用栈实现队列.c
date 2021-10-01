@@ -34,7 +34,7 @@ typedef struct {
     int len;
     int head;
     int tail;
-    int* statck;
+    int* stack;
 } MyQueue;
 
 
@@ -43,24 +43,24 @@ MyQueue* myQueueCreate() {
     new->len = 0;
     new->head = 0;
     new->tail = 0;
-    new->statck = (int*)malloc(sizeof(int) * SIZE);
-    memset(new->statck, 0, sizeof(int) * SIZE);
+    new->stack = (int*)malloc(sizeof(int) * SIZE);
+    memset(new->stack, 0, sizeof(int) * SIZE);
     return new;
 }
 
 void myQueuePush(MyQueue* obj, int x) {
-    obj->statck[obj->tail++] = x;
+    obj->stack[obj->tail++] = x;
     obj->len++;
 }
 
 int myQueuePop(MyQueue* obj) {
-    int tmp = obj->statck[obj->head++];
+    int tmp = obj->stack[obj->head++];
     obj->len--;
     return tmp;
 }
 
 int myQueuePeek(MyQueue* obj) {
-    return obj->statck[obj->head];
+    return obj->stack[obj->head];
 }
 
 bool myQueueEmpty(MyQueue* obj) {
@@ -71,7 +71,81 @@ bool myQueueEmpty(MyQueue* obj) {
 }
 
 void myQueueFree(MyQueue* obj) {
-    obj->statck = NULL;
+    obj->stack = NULL;
+    obj = NULL;
+    free(obj);
+}
+
+/**
+ * Your MyQueue struct will be instantiated and called as such:
+ * MyQueue* obj = myQueueCreate();
+ * myQueuePush(obj, x);
+ 
+ * int param_2 = myQueuePop(obj);
+ 
+ * int param_3 = myQueuePeek(obj);
+ 
+ * bool param_4 = myQueueEmpty(obj);
+ 
+ * myQueueFree(obj);
+*/
+
+//function 2， 双栈实现队列
+#define SIZE 100
+typedef struct {
+    int head;   //存储队首元素
+    int top1;
+    int top2;
+    int* stack1;
+    int* stack2;
+} MyQueue;
+
+bool myQueueEmpty(MyQueue* obj);
+
+MyQueue* myQueueCreate() {
+    MyQueue* new = (MyQueue*)malloc(sizeof(MyQueue));
+    new->head = 0;  //队首元素默认值为 0
+    new->top1 = 0;
+    new->top2 = 0;
+    new->stack1 = (int*)malloc(sizeof(int) * SIZE);
+    memset(new->stack1, 0, sizeof(int) * SIZE);
+    new->stack2 = (int*)malloc(sizeof(int) * SIZE);
+    memset(new->stack2, 0, sizeof(int) * SIZE);
+    return new;
+}
+
+void myQueuePush(MyQueue* obj, int x) {
+    if(myQueueEmpty(obj))
+        obj->head = x;
+    while(obj->top2)
+    {
+        obj->stack1[obj->top1++] = obj->stack2[--obj->top2];
+    }
+    obj->stack1[obj->top1++] = x;
+}
+
+int myQueuePop(MyQueue* obj) {
+    while(obj->top1)
+    {
+        obj->stack2[obj->top2++] = obj->stack1[--obj->top1];
+    }
+    int tmp = obj->stack2[--obj->top2];
+    //如果两个栈都是空，队首元素默认值为 0
+    0 != obj->top2 ? obj->head = (obj->stack2[obj->top2 - 1]) : (obj->head = 0);
+    return tmp;
+}
+
+int myQueuePeek(MyQueue* obj) {
+    return obj->head;
+}
+
+bool myQueueEmpty(MyQueue* obj) {
+    return !obj->top1 && !obj->top2;
+}
+
+void myQueueFree(MyQueue* obj) {
+    obj->stack1 = NULL;
+    obj->stack2 = NULL;
     obj = NULL;
     free(obj);
 }
