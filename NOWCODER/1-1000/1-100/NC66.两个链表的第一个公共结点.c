@@ -31,6 +31,7 @@ NC66 两个链表的第一个公共结点
  * @param pHead2 ListNode类 
  * @return ListNode类
  */
+//function 1
 typedef struct ListNode Node;
 struct ListNode* FindFirstCommonNode(struct ListNode* pHead1, struct ListNode* pHead2 ) {
     // write code here
@@ -65,4 +66,19 @@ struct ListNode* FindFirstCommonNode(struct ListNode* pHead1, struct ListNode* p
     }
 
     return res = p1;
+}
+
+//function 2
+typedef struct ListNode Node;
+struct ListNode* FindFirstCommonNode(struct ListNode* pHead1, struct ListNode* pHead2 ) {
+    // write code here
+    Node* p1 = pHead1;
+    Node* p2 = pHead2;
+    //p1走完走list2，p2走完走list1，两者走的长度相同，如果有公共结点肯定会重合
+    while(p1 != p2)
+    {
+        p1 = !p1 ? pHead2 : p1->next;
+        p2 = !p2 ? pHead1 : p2->next;
+    }
+    return p1;
 }
