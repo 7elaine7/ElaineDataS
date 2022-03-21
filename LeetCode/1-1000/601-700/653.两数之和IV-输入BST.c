@@ -50,7 +50,7 @@ bool find(Node* root, int k, Hash* hashtable)
     return find(root->left, k, hashtable) || find(root->right, k, hashtable);
 }
 bool findTarget(struct TreeNode* root, int k){
-    Hash* hashtable;
+    Hash* hashtable = NULL;
     return find(root, k, hashtable);
 
 }
