@@ -11,24 +11,25 @@ Date: 19-09-22
 
 void Bubble_Sort(ARRAY_S *array_s)
 {
+    if(array_s->size <= 1)
+        return;
     bool finish;
     int i, j;
-    for(i = 0; i < array_s->size; i++)
+    for(i = 0; i < array_s->size; ++i)
     {
         finish = true;
         for(j = 0; j < array_s->size - i -1; j++)
         {
             if(array_s->array[j] > array_s->array[j+1])
             {
-                finish = false;
                 int tmp = array_s->array[j];
                 array_s->array[j] = array_s->array[j+1];
                 array_s->array[j+1] = tmp;
+                finish = false;
             }
         }
-        if(true == finish)
+        if(finish)
         {
-            printf("Finish sort, i = %d, j = %d\n", i, j);
             break;
         }
     }
@@ -36,8 +37,10 @@ void Bubble_Sort(ARRAY_S *array_s)
 
 void Insertion_Sort(ARRAY_S *array_s)
 {
+    if(array_s->size <= 1)
+        return;
     int i, j;
-    for(i = 1; i< array_s->size; i++)
+    for(i = 1; i< array_s->size; ++i)
     {
         int value = array_s->array[i];
         j = i-1;
@@ -57,25 +60,25 @@ void Insertion_Sort(ARRAY_S *array_s)
 void Selection_Sort(ARRAY_S *array_s)
 {
     int i,j;
-    int min;
-    int index;
 
-
-    for(i = 0; i < array_s->size; i++)
+    if(array_s->size <= 1)
+        return;
+    
+    for(i = 0; i < array_s->size - 1; ++i)
     {
-        index = i;
-        for(j = i; j < array_s->size; j++)
+        int min = i;
+        for(j = i + 1; j < array_s->size; ++j)
         {
-            if(array_s->array[j] <array_s->array[index])
-            {
-                index = j;
-            }
+            if(array_s->array[j] < array_s->array[min])
+                min = j;
+        }
+        if(min != i)
+        {
+            int tmp = array_s->array[i];
+            array_s->array[i] = array_s->array[min];
+            array_s->array[min] = tmp;        
+        }
 
-        } 
-
-        min = array_s->array[index];
-        array_s->array[index] = array_s->array[i];
-        array_s->array[i] = min;
     }
 }
 
